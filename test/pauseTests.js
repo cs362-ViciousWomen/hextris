@@ -52,5 +52,40 @@ function checkQ(e){
             assert.Equal('#devtools'.toggle(), false, "devTools aren't showing");
         }
     }
+}
 
+//function that checks that pressing the pause button with the mouse will pause/unpause the game
+function checkPauseButton(){
+    var assert = require('assert');
+    //if the help screen is visible, meaning the game is paused, then pressing the pause button again should unpause the game
+    if($('#helpScreen').is(":visible")){
+        if($('#pauseBtn').on('touchstart mousedown')){
+            assert.Equal(gameState, 1, "Game has been unpaused")
+        }
+    }
+    //if the help screen isn't visible, which means the game is in play, that means pressing the pause button should pause the game
+    else{
+            if($('#pauseBtn').on('touchstart mousedown')){
+                assert.Equal(gameState, 0, "Game has been paused")
+            }
+        }
+}
+
+//function that checks that pressing enter will either reset the game or unpause the game
+function checkEnter(e){
+    var assert = require('assert');
+    var pause = pause();
+
+    //if the game is currently playing and enter is pressed, it should reset the game and display the help screen
+    if(gameState == 1){
+        if(e.keycheck == "enter"){
+            assert.Equal('#helpScreen'.is(":visible"), true, "Game has been reset");
+        }
+    }
+    //if the game is currently paused, pressing enter should unpause the game
+    else if(gameState == 0){
+        if(e.keycheck == "enter"){
+            assert.Equal(gameState, 1, "Game has been unpaused");
+        }
+    }
 }
